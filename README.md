@@ -19,6 +19,24 @@ Will be rendered as an `<a href="">` link:
 
     <a href="https://simonwillison.net/">Simon Willison</a>
 
+## List of links
+
+    [
+        {
+            "href": "https://simonwillison.net/",
+            "label": "Simon Willison"
+        },
+        {
+            "href": "https://github.com/simonw/datasette",
+            "label": "Datasette"
+        }
+    ]
+
+Will be rendered as a comma-separated list of `<a href="">` links:
+
+    <a href="https://simonwillison.net/">Simon Willison</a>,
+    <a href="https://github.com/simonw/datasette">Datasette</a>
+
 ## Images
 
 The image tag is more complex. The most basic version looks like this:

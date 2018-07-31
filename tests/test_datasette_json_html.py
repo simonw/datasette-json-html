@@ -1,4 +1,5 @@
 from datasette_json_html import render_cell
+import jinja2
 import json
 import pytest
 
@@ -40,7 +41,18 @@ import pytest
             '<figure><img src="https://placekitten.com/200/300">'
             "<figcaption>Kitten caption</figcaption></figure>",
         ),
+        # List of links:
+        (
+            [
+                {"href": "http://example.com/", "label": "Example"},
+                {"href": "http://blah.com/", "label": "Blah"},
+            ],
+            '<a href="http://example.com/">Example</a>, '
+            '<a href="http://blah.com/">Blah</a>',
+        ),
     ),
 )
 def test_render_cell(input, expected):
-    assert expected == render_cell(json.dumps(input))
+    actual = render_cell(json.dumps(input))
+    assert expected == actual
+    assert actual is None or isinstance(actual, jinja2.Markup)

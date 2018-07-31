@@ -8,12 +8,33 @@ def render_cell(value):
     if not isinstance(value, str):
         return None
     stripped = value.strip()
-    if not (stripped.startswith("{") and stripped.endswith("}")):
+    if not (
+        (stripped.startswith("{") and stripped.endswith("}"))
+        or (stripped.startswith("[") and stripped.endswith("]"))
+    ):
         return None
     try:
         data = json.loads(value)
     except ValueError:
         return None
+    if isinstance(data, list):
+        # Handle list-of-links
+        if all(
+            isinstance(item, dict)
+            and set(item.keys()) == {"href", "label"}
+            and is_sensible_href(item["href"])
+            for item in data
+        ):
+            bits = [
+                '<a href="{href}">{label}</a>'.format(
+                    href=jinja2.escape(item["href"]),
+                    label=jinja2.escape(item["label"] or "") or "&nbsp;",
+                )
+                for item in data
+            ]
+            return jinja2.Markup(", ".join(bits))
+        else:
+            return None
     keys = set(data.keys())
     if keys == {"href", "label"}:
         # Render {"href": "...", "label": "..."} as link
