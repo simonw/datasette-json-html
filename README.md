@@ -2,7 +2,7 @@
 
 Datasette plugin for rendering HTML based on JSON values
 
-Note that this does not currently work with Datasette master - it uses a new plugin hook that is being developed in the `plugin-hook-cell` - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
+Note that this does not currently work with Datasette master - it uses a new plugin hook that is being developed in the `plugin-hook-cell` branch - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
 
 This plugin looks for Database values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
 
