@@ -6,7 +6,7 @@ python:
   - "3.7-dev"
 
 script:
-  - pip install -U pip wheel pytest
+  - pip install -U datasette pip wheel pytest
   - pytest
 
 cache:
