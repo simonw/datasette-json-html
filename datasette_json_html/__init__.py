@@ -1,6 +1,13 @@
 from datasette import hookimpl
 import jinja2
 import json
+import urllib
+
+
+# Add urllib_quote_plus SQLite function`
+@hookimpl
+def prepare_connection(conn):
+    conn.create_function("urllib_quote_plus", 1, urllib.parse.quote_plus)
 
 
 @hookimpl

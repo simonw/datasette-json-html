@@ -37,6 +37,8 @@ Will be rendered as a comma-separated list of `<a href="">` links:
     <a href="https://simonwillison.net/">Simon Willison</a>,
     <a href="https://github.com/simonw/datasette">Datasette</a>
 
+The `href` property must begin with `https://` or `http://` or `/`, to avoid potential XSS injection attacks (for example URLs that begin with `javascript:`).
+
 ## Images
 
 The image tag is more complex. The most basic version looks like this:
@@ -104,4 +106,18 @@ You can use these functions to construct JSON objects that work with the plugin 
 
     select id, json_object(
         "href", url, "label", text
+    ) from mytable;
+
+## The `urllib_quote_plus()` SQL function
+
+Since this plugin is designed to be used with SQL that constructs the underlying JSON structure, it is likely you will need to construct dynamic URLs from results returned by a SQL query.
+
+This plugin registers a custom SQLite function called `urllib_quote_plus()` to help you do that. It lets you use Python's [urllib.parse.quote\_plus() function](https://docs.python.org/3/library/urllib.parse.html#urllib.parse.quote_plus) from within a SQL query.
+
+Here's an example of how you might use it:
+
+    select id, json_object(
+        "href",
+        "/mydatabase/other_table?_search=" || urllib_quote_plus(text)
+        "label", text
     ) from mytable;
