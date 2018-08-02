@@ -118,6 +118,6 @@ Here's an example of how you might use it:
 
     select id, json_object(
         "href",
-        "/mydatabase/other_table?_search=" || urllib_quote_plus(text)
+        "/mydatabase/other_table?_search=" || urllib_quote_plus(text),
         "label", text
     ) from mytable;
