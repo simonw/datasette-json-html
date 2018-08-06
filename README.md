@@ -1,5 +1,9 @@
 # datasette-json-html
 
+[![PyPI](https://img.shields.io/pypi/v/datasette-json-html.svg)](https://pypi.org/project/datasette-json-html/)
+[![Travis CI](https://travis-ci.com/simonw/datasette-json-html.svg?branch=master)](https://travis-ci.com/simonw/datasette-json-html)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-json-html/blob/master/LICENSE)
+
 Datasette plugin for rendering HTML based on JSON values, using the new `render_cell` plugin hook only available in Datasette master - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
 
 This plugin looks for Database values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
