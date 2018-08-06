@@ -1,12 +1,12 @@
 # datasette-json-html
 
-Datasette plugin for rendering HTML based on JSON values
-
-Note that this does not currently work with Datasette master - it uses a new plugin hook that is being developed in the `plugin-hook-cell` branch - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
+Datasette plugin for rendering HTML based on JSON values, using the new `render_cell` plugin hook only available in Datasette master - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
 
 This plugin looks for Database values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
 
-It currently supports two formats.
+See [russian-ira-facebook-ads-datasette](https://github.com/simonw/russian-ira-facebook-ads-datasette) for an example of this plugin in action.
+
+It currently supports three formats.
 
 ## Links
 
