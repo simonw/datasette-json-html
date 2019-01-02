@@ -97,6 +97,41 @@ Produces:
         <figcaption>Kitten caption</figcaption>
     </figure>
 
+## Preformatted text
+
+You can use `{"pre": "text"}` to render text in a `<pre>` HTML tag:
+
+    {
+        "pre": "This\nhas\nnewlines"
+    }
+
+Produces:
+
+    <pre>This
+    has
+    newlines</pre>
+
+If the value attached to the `"pre"` key is itself a JSON object, that JSON will be pretty-printed:
+
+    {
+        "pre": {
+            "this": {
+                "object": ["is", "nested"]
+            }
+        }
+    }
+
+Produces:
+
+    <pre>{
+      &#34;this&#34;: {
+        &#34;object&#34;: [
+          &#34;is&#34;,
+          &#34;nested&#34;
+        ]
+      }
+    }</pre>
+
 ## Using these with SQLite JSON functions
 
 The most powerful way to make use of this plugin is in conjunction with SQLite's [JSON functions](https://www.sqlite.org/json1.html). For example:

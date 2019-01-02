@@ -50,6 +50,16 @@ import pytest
             '<a href="http://example.com/">Example</a>, '
             '<a href="http://blah.com/">Blah</a>',
         ),
+        # <pre> with string contents
+        (
+            {"pre": "Hello\n  two step indent\nBack again"},
+            '<pre>Hello\n  two step indent\nBack again</pre>'
+        ),
+        # <pre> with JSON object contents
+        (
+            {"pre": {"this": {"is": "nested"}}},
+            '<pre>{\n  &#34;this&#34;: {\n    &#34;is&#34;: &#34;nested&#34;\n  }\n}</pre>'
+        ),
     ),
 )
 def test_render_cell(input, expected):
