@@ -4,13 +4,11 @@
 [![Travis CI](https://travis-ci.com/simonw/datasette-json-html.svg?branch=master)](https://travis-ci.com/simonw/datasette-json-html)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-json-html/blob/master/LICENSE)
 
-Datasette plugin for rendering HTML based on JSON values, using the new `render_cell` plugin hook only available in Datasette master - see [issue 352](https://github.com/simonw/datasette/issues/352) for details.
+Datasette plugin for rendering HTML based on JSON values, using the [render_cell plugin hook](https://datasette.readthedocs.io/en/latest/plugins.html#plugin-hook-render-cell).
 
-This plugin looks for Database values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
+This plugin looks for cell values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
 
 See [russian-ira-facebook-ads-datasette](https://github.com/simonw/russian-ira-facebook-ads-datasette) for an example of this plugin in action.
-
-It currently supports three formats.
 
 ## Links
 
