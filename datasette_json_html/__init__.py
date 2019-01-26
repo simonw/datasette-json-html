@@ -26,6 +26,8 @@ def render_cell(value):
         return None
     if isinstance(data, list):
         # Handle list-of-links
+        if len(data) == 0:
+            return None
         if all(
             isinstance(item, dict)
             and set(item.keys()) == {"href", "label"}

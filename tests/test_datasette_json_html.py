@@ -9,6 +9,8 @@ import pytest
     (
         # Ignore unrecognized JSON structure:
         ({"blah": "blah"}, None),
+        # Ignore empty list
+        ([], None),
         # Basic link:
         (
             {"href": "http://example.com/", "label": "Example"},
