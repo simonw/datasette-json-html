@@ -62,11 +62,7 @@ def render_cell(value):
             pre = value
         else:
             pre = json.dumps(value, indent=2)
-        return jinja2.Markup(
-            '<pre>{pre}</pre>'.format(
-                pre=jinja2.escape(pre)
-            )
-        )
+        return jinja2.Markup("<pre>{pre}</pre>".format(pre=jinja2.escape(pre)))
     elif "img_src" in keys and keys.issubset(
         {"img_src", "alt", "href", "caption", "width"}
     ):
