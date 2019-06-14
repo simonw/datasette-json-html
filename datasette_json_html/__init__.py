@@ -3,6 +3,8 @@ import jinja2
 import json
 import urllib
 
+valid_link_keys = ({"href", "label"}, {"href", "label", "title"})
+
 
 # Add urllib_quote_plus SQLite function`
 @hookimpl
@@ -30,32 +32,21 @@ def render_cell(value):
             return None
         if all(
             isinstance(item, dict)
-            and set(item.keys()) == {"href", "label"}
+            and set(item.keys()) in valid_link_keys
             and is_sensible_href(item["href"])
             for item in data
         ):
-            bits = [
-                '<a href="{href}">{label}</a>'.format(
-                    href=jinja2.escape(item["href"]),
-                    label=jinja2.escape(item["label"] or "") or "&nbsp;",
-                )
-                for item in data
-            ]
+            bits = [build_link(item) for item in data]
             return jinja2.Markup(", ".join(bits))
         else:
             return None
     keys = set(data.keys())
-    if keys == {"href", "label"}:
+    if keys in valid_link_keys:
         # Render {"href": "...", "label": "..."} as link
         href = data["href"]
         if not is_sensible_href(href):
             return None
-        return jinja2.Markup(
-            '<a href="{href}">{label}</a>'.format(
-                href=jinja2.escape(data["href"]),
-                label=jinja2.escape(data["label"] or "") or "&nbsp;",
-            )
-        )
+        return jinja2.Markup(build_link(data))
     elif keys == {"pre"}:
         value = data["pre"]
         if isinstance(value, str):
@@ -92,4 +83,14 @@ def is_sensible_href(href):
         href.startswith("/")
         or href.startswith("http://")
         or href.startswith("https://")
+    )
+
+
+def build_link(item):
+    return '<a href="{href}"{title}>{label}</a>'.format(
+        href=jinja2.escape(item["href"]),
+        label=jinja2.escape(item["label"] or "") or "&nbsp;",
+        title=' title="{}"'.format(jinja2.escape(item["title"]))
+        if item.get("title")
+        else "",
     )

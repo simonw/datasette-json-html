@@ -18,6 +18,11 @@ import pytest
         ),
         # Evil links should not be rendered:
         ({"href": "javascript:alert('evil')", "label": "Evil"}, None),
+        # Link with a tooltip:
+        (
+            {"href": "http://example.com/", "label": "Example", "title": "Tooltip"},
+            '<a href="http://example.com/" title="Tooltip">Example</a>',
+        ),
         # Image tests:
         (
             {"img_src": "https://placekitten.com/200/300"},
@@ -47,10 +52,14 @@ import pytest
         (
             [
                 {"href": "http://example.com/", "label": "Example"},
-                {"href": "http://blah.com/", "label": "Blah"},
+                {
+                    "href": "http://blah.com/",
+                    "label": "Blah",
+                    "title": "Tooltip & change",
+                },
             ],
             '<a href="http://example.com/">Example</a>, '
-            '<a href="http://blah.com/">Blah</a>',
+            '<a href="http://blah.com/" title="Tooltip &amp; change">Blah</a>',
         ),
         # <pre> with string contents
         (

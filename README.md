@@ -21,6 +21,20 @@ Will be rendered as an `<a href="">` link:
 
     <a href="https://simonwillison.net/">Simon Willison</a>
 
+You can set a tooltip on the link using a `"title"` key:
+
+
+    {
+        "href": "https://simonwillison.net/",
+        "label": "Simon Willison",
+        "title": "My blog"
+    }
+
+Produces:
+
+    <a href="https://simonwillison.net/" title="My blog">Simon Willison</a>
+
+
 ## List of links
 
     [
