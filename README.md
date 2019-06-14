@@ -8,8 +8,6 @@ Datasette plugin for rendering HTML based on JSON values, using the [render_cell
 
 This plugin looks for cell values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
 
-See [russian-ira-facebook-ads-datasette](https://github.com/simonw/russian-ira-facebook-ads-datasette) for an example of this plugin in action.
-
 ## Links
 
     {
@@ -34,6 +32,7 @@ Produces:
 
     <a href="https://simonwillison.net/" title="My blog">Simon Willison</a>
 
+* [Literal JSON link demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%7B%0D%0A++++%22href%22%3A+%22https%3A%2F%2Fsimonwillison.net%2F%22%2C%0D%0A++++%22label%22%3A+%22Simon+Willison%22%2C%0D%0A++++%22title%22%3A+%22My+blog%22%0D%0A%7D%27)
 
 ## List of links
 
@@ -54,6 +53,8 @@ Will be rendered as a comma-separated list of `<a href="">` links:
     <a href="https://github.com/simonw/datasette">Datasette</a>
 
 The `href` property must begin with `https://` or `http://` or `/`, to avoid potential XSS injection attacks (for example URLs that begin with `javascript:`).
+
+* [Literal list of links demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%5B%0D%0A++++%7B%0D%0A++++++++%22href%22%3A+%22https%3A%2F%2Fsimonwillison.net%2F%22%2C%0D%0A++++++++%22label%22%3A+%22Simon+Willison%22%0D%0A++++%7D%2C%0D%0A++++%7B%0D%0A++++++++%22href%22%3A+%22https%3A%2F%2Fgithub.com%2Fsimonw%2Fdatasette%22%2C%0D%0A++++++++%22label%22%3A+%22Datasette%22%0D%0A++++%7D%0D%0A%5D%27)
 
 ## Images
 
@@ -81,6 +82,8 @@ Produces:
 
     <img src="https://placekitten.com/200/300"
         alt="Kitten" width="200">
+
+* [Literal image demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%7B%0D%0A++++%22img_src%22%3A+%22https%3A%2F%2Fplacekitten.com%2F200%2F300%22%2C%0D%0A++++%22alt%22%3A+%22Kitten%22%2C%0D%0A++++%22width%22%3A+200%0D%0A%7D%27)
 
 The `href` key will cause the image to be wrapped in a link:
 
@@ -144,6 +147,8 @@ Produces:
       }
     }</pre>
 
+* [Preformatted text with JSON demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%7B%0D%0A++++%22pre%22%3A+%7B%0D%0A++++++++%22this%22%3A+%7B%0D%0A++++++++++++%22object%22%3A+%5B%22is%22%2C+%22nested%22%5D%0D%0A++++++++%7D%0D%0A++++%7D%0D%0A%7D%27)
+
 ## Using these with SQLite JSON functions
 
 The most powerful way to make use of this plugin is in conjunction with SQLite's [JSON functions](https://www.sqlite.org/json1.html). For example:
@@ -153,11 +158,32 @@ The most powerful way to make use of this plugin is in conjunction with SQLite's
         "label", "Simon Willison"
     );
 
+* [json_object() link demo](https://datasette-json-html.datasette.io/demo?sql=select+json_object%28%0D%0A++++%22href%22%2C+%22https%3A%2F%2Fsimonwillison.net%2F%22%2C%0D%0A++++%22label%22%2C+%22Simon+Willison%22%0D%0A%29%3B)
+
 You can use these functions to construct JSON objects that work with the plugin from data in a table:
 
     select id, json_object(
         "href", url, "label", text
     ) from mytable;
+
+* [Demo that builds links against a table](https://datasette-json-html.datasette.io/demo?sql=select+json_object%28%22href%22%2C+url%2C+%22label%22%2C+package%2C+%22title%22%2C+package+%7C%7C+%22+%22+%7C%7C+url%29+as+package+from+packages)
+
+The `json_group_array()` function is an aggregate function similar to `group_concat()` - it allows you to construct lists of JSON objects in conjunction with a `GROUP BY` clause.
+
+This means you can use it to construct dynamic lists of links, for example:
+
+    select
+        substr(package, 0, 12) as prefix,
+        json_group_array(
+            json_object(
+                "href", url,
+                "label", package
+            )
+        ) as package_links
+    from packages
+    group by prefix
+
+* [Demo of json_group_arry()](https://datasette-json-html.datasette.io/demo?sql=select%0D%0A++++substr%28package%2C+0%2C+12%29+as+prefix%2C%0D%0A++++json_group_array%28%0D%0A++++++++json_object%28%0D%0A++++++++++++%22href%22%2C+url%2C%0D%0A++++++++++++%22label%22%2C+package%0D%0A++++++++%29%0D%0A++++%29+as+package_links%0D%0Afrom+packages%0D%0Agroup+by+prefix)
 
 ## The `urllib_quote_plus()` SQL function
 
