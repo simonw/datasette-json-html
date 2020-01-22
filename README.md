@@ -32,6 +32,18 @@ Produces:
 
     <a href="https://simonwillison.net/" title="My blog">Simon Willison</a>
 
+You can also include a description, which will be displayed below the link. If descriptions include newlines they will be converted to `<br>` elements:
+
+    select json_object(
+        "href", "https://simonwillison.net/",
+        "label", "Simon Willison",
+        "description", "This can contain" || x'0a' || "newlines"
+    )
+
+Produces:
+
+    <strong><a href="https://simonwillison.net/">Simon Willison</a></strong><br>This can contain<br>newlines
+
 * [Literal JSON link demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%7B%0D%0A++++%22href%22%3A+%22https%3A%2F%2Fsimonwillison.net%2F%22%2C%0D%0A++++%22label%22%3A+%22Simon+Willison%22%2C%0D%0A++++%22title%22%3A+%22My+blog%22%0D%0A%7D%27)
 
 ## List of links
@@ -53,6 +65,8 @@ Will be rendered as a comma-separated list of `<a href="">` links:
     <a href="https://github.com/simonw/datasette">Datasette</a>
 
 The `href` property must begin with `https://` or `http://` or `/`, to avoid potential XSS injection attacks (for example URLs that begin with `javascript:`).
+
+Lists of links cannot include `"description"` keys.
 
 * [Literal list of links demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%5B%0D%0A++++%7B%0D%0A++++++++%22href%22%3A+%22https%3A%2F%2Fsimonwillison.net%2F%22%2C%0D%0A++++++++%22label%22%3A+%22Simon+Willison%22%0D%0A++++%7D%2C%0D%0A++++%7B%0D%0A++++++++%22href%22%3A+%22https%3A%2F%2Fgithub.com%2Fsimonw%2Fdatasette%22%2C%0D%0A++++++++%22label%22%3A+%22Datasette%22%0D%0A++++%7D%0D%0A%5D%27)
 

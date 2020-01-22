@@ -3,8 +3,13 @@ import jinja2
 import json
 import urllib
 
-valid_link_keys = ({"href", "label"}, {"href", "label", "title"})
-
+valid_link_keys = (
+    {"href", "label"},
+    {"href", "label", "title"},
+    {"href", "label", "title", "description"},
+    {"href", "label", "description"},
+)
+valid_link_keys_no_description = ({"href", "label"}, {"href", "label", "title"})
 
 # Add urllib_quote_plus SQLite function`
 @hookimpl
@@ -32,7 +37,7 @@ def render_cell(value):
             return None
         if all(
             isinstance(item, dict)
-            and set(item.keys()) in valid_link_keys
+            and set(item.keys()) in valid_link_keys_no_description
             and is_sensible_href(item["href"])
             for item in data
         ):
@@ -87,10 +92,18 @@ def is_sensible_href(href):
 
 
 def build_link(item):
-    return '<a href="{href}"{title}>{label}</a>'.format(
+    html = '<a href="{href}"{title}>{label}</a>'.format(
         href=jinja2.escape(item["href"]),
         label=jinja2.escape(item["label"] or "") or "&nbsp;",
         title=' title="{}"'.format(jinja2.escape(item["title"]))
         if item.get("title")
         else "",
     )
+    if item.get("description"):
+        description = (
+            jinja2.escape(item["description"])
+            .replace("\r\n", "\n")
+            .replace("\n", jinja2.Markup("<br>"))
+        )
+        html = "<strong>{}</strong><br>{}".format(html, description)
+    return html

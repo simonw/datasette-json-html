@@ -61,6 +61,16 @@ import pytest
             '<a href="http://example.com/">Example</a>, '
             '<a href="http://blah.com/" title="Tooltip &amp; change">Blah</a>',
         ),
+        # Link with description
+        (
+            {
+                "href": "http://example.com/",
+                "label": "Example",
+                "description": "Hello there\nwith a break",
+            },
+            '<strong><a href="http://example.com/">Example</a></strong><br>'
+            "Hello there<br>with a break",
+        ),
         # <pre> with string contents
         (
             {"pre": "Hello\n  two step indent\nBack again"},
