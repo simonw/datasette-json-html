@@ -19,9 +19,16 @@ setup(
     long_description_content_type="text/markdown",
     author="Simon Willison",
     url="https://github.com/simonw/datasette-json-html",
+    project_urls={
+        "Issues": "https://github.com/simonw/datasette-json-html/issues",
+        "CI": "https://github.com/simonw/datasette-json-html/actions",
+        "Changelog": "https://github.com/simonw/datasette-json-html/releases",
+    },
     license="Apache License, Version 2.0",
     version=VERSION,
     packages=["datasette_json_html"],
     entry_points={"datasette": ["json_html = datasette_json_html"]},
     install_requires=["datasette"],
+    extras_require={"test": ["pytest", "pytest-asyncio", "httpx"]},
+    tests_require=["datasette-json-html[test]"],
 )
