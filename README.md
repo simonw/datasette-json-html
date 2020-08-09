@@ -1,7 +1,7 @@
 # datasette-json-html
 
 [![PyPI](https://img.shields.io/pypi/v/datasette-json-html.svg)](https://pypi.org/project/datasette-json-html/)
-[![Travis CI](https://travis-ci.com/simonw/datasette-json-html.svg?branch=main)](https://travis-ci.com/simonw/datasette-json-html)
+[![Changelog](https://img.shields.io/github/v/release/simonw/datasette-json-html?include_prereleases&label=changelog)](https://github.com/simonw/datasette-json-html/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-json-html/blob/main/LICENSE)
 
 Datasette plugin for rendering HTML based on JSON values, using the [render_cell plugin hook](https://datasette.readthedocs.io/en/latest/plugins.html#plugin-hook-render-cell).
