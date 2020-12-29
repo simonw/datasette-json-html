@@ -4,7 +4,7 @@
 [![Changelog](https://img.shields.io/github/v/release/simonw/datasette-json-html?include_prereleases&label=changelog)](https://github.com/simonw/datasette-json-html/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-json-html/blob/main/LICENSE)
 
-Datasette plugin for rendering HTML based on JSON values, using the [render_cell plugin hook](https://datasette.readthedocs.io/en/latest/plugins.html#plugin-hook-render-cell).
+Datasette plugin for rendering HTML based on JSON values, using the [render_cell plugin hook](https://docs.datasette.io/en/stable/plugin_hooks.html#render-cell-value-column-table-database-datasette).
 
 This plugin looks for cell values that match a very specific JSON format and converts them into HTML when they are rendered by the Datasette interface.
 
