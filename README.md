@@ -162,6 +162,7 @@ Produces:
     }</pre>
 
 * [Preformatted text with JSON demo](https://datasette-json-html.datasette.io/demo?sql=select+%27%7B%0D%0A++++%22pre%22%3A+%7B%0D%0A++++++++%22this%22%3A+%7B%0D%0A++++++++++++%22object%22%3A+%5B%22is%22%2C+%22nested%22%5D%0D%0A++++++++%7D%0D%0A++++%7D%0D%0A%7D%27)
+* [Preformatted text demo showing the Mandelbrot Set](https://datasette-json-html.datasette.io/demo?sql=WITH+RECURSIVE%0D%0A++xaxis%28x%29+AS+%28VALUES%28-2.0%29+UNION+ALL+SELECT+x%2B0.05+FROM+xaxis+WHERE+x%3C1.2%29%2C%0D%0A++yaxis%28y%29+AS+%28VALUES%28-1.0%29+UNION+ALL+SELECT+y%2B0.1+FROM+yaxis+WHERE+y%3C1.0%29%2C%0D%0A++m%28iter%2C+cx%2C+cy%2C+x%2C+y%29+AS+%28%0D%0A++++SELECT+0%2C+x%2C+y%2C+0.0%2C+0.0+FROM+xaxis%2C+yaxis%0D%0A++++UNION+ALL%0D%0A++++SELECT+iter%2B1%2C+cx%2C+cy%2C+x*x-y*y+%2B+cx%2C+2.0*x*y+%2B+cy+FROM+m+%0D%0A+++++WHERE+%28x*x+%2B+y*y%29+%3C+4.0+AND+iter%3C28%0D%0A++%29%2C%0D%0A++m2%28iter%2C+cx%2C+cy%29+AS+%28%0D%0A++++SELECT+max%28iter%29%2C+cx%2C+cy+FROM+m+GROUP+BY+cx%2C+cy%0D%0A++%29%2C%0D%0A++a%28t%29+AS+%28%0D%0A++++SELECT+group_concat%28+substr%28%27+.%2B*%23%27%2C+1%2Bmin%28iter%2F7%2C4%29%2C+1%29%2C+%27%27%29+%0D%0A++++FROM+m2+GROUP+BY+cy%0D%0A++%29%0D%0ASELECT+json_object%28%27pre%27%2C+group_concat%28rtrim%28t%29%2Cx%270a%27%29%29+FROM+a%3B) using [this example](https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples) from the SQLite documentation
 
 ## Using these with SQLite JSON functions
 
