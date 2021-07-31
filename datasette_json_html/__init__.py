@@ -1,6 +1,6 @@
 from datasette import hookimpl
-import jinja2
 import json
+import markupsafe
 import urllib
 
 valid_link_keys = (
@@ -42,7 +42,7 @@ def render_cell(value):
             for item in data
         ):
             bits = [build_link(item) for item in data]
-            return jinja2.Markup(", ".join(bits))
+            return markupsafe.Markup(", ".join(bits))
         else:
             return None
     keys = set(data.keys())
@@ -51,36 +51,36 @@ def render_cell(value):
         href = data["href"]
         if not is_sensible_href(href):
             return None
-        return jinja2.Markup(build_link(data))
+        return markupsafe.Markup(build_link(data))
     elif keys == {"pre"}:
         value = data["pre"]
         if isinstance(value, str):
             pre = value
         else:
             pre = json.dumps(value, indent=2)
-        return jinja2.Markup("<pre>{pre}</pre>".format(pre=jinja2.escape(pre)))
+        return markupsafe.Markup("<pre>{pre}</pre>".format(pre=markupsafe.escape(pre)))
     elif "img_src" in keys and keys.issubset(
         {"img_src", "alt", "href", "caption", "width"}
     ):
         # Render <img src="">, optionally with alt, wrapping link and/or caption
         html = '<img src="{img_src}"{optional_alt}{optional_width}>'.format(
-            img_src=jinja2.escape(data["img_src"]),
-            optional_alt=' alt="{}"'.format(jinja2.escape(data["alt"]))
+            img_src=markupsafe.escape(data["img_src"]),
+            optional_alt=' alt="{}"'.format(markupsafe.escape(data["alt"]))
             if data.get("alt")
             else "",
-            optional_width=' width="{}"'.format(jinja2.escape(data["width"]))
+            optional_width=' width="{}"'.format(markupsafe.escape(data["width"]))
             if data.get("width")
             else "",
         )
         if data.get("href") and is_sensible_href(data["href"]):
             html = '<a href="{href}">{html}</a>'.format(
-                href=jinja2.escape(data["href"]), html=html
+                href=markupsafe.escape(data["href"]), html=html
             )
         if data.get("caption"):
             html = "<figure>{html}<figcaption>{caption}</figcaption></figure>".format(
-                caption=jinja2.escape(data["caption"]), html=html
+                caption=markupsafe.escape(data["caption"]), html=html
             )
-        return jinja2.Markup(html)
+        return markupsafe.Markup(html)
 
 
 def is_sensible_href(href):
@@ -93,17 +93,17 @@ def is_sensible_href(href):
 
 def build_link(item):
     html = '<a href="{href}"{title}>{label}</a>'.format(
-        href=jinja2.escape(item["href"]),
-        label=jinja2.escape(item["label"] or "") or "&nbsp;",
-        title=' title="{}"'.format(jinja2.escape(item["title"]))
+        href=markupsafe.escape(item["href"]),
+        label=markupsafe.escape(item["label"] or "") or "&nbsp;",
+        title=' title="{}"'.format(markupsafe.escape(item["title"]))
         if item.get("title")
         else "",
     )
     if item.get("description"):
         description = (
-            jinja2.escape(item["description"])
+            markupsafe.escape(item["description"])
             .replace("\r\n", "\n")
-            .replace("\n", jinja2.Markup("<br>"))
+            .replace("\n", markupsafe.Markup("<br>"))
         )
         html = "<strong>{}</strong><br>{}".format(html, description)
     return html

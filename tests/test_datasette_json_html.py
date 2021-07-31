@@ -1,5 +1,5 @@
 from datasette_json_html import render_cell
-import jinja2
+import markupsafe
 import json
 import pytest
 
@@ -86,4 +86,4 @@ import pytest
 def test_render_cell(input, expected):
     actual = render_cell(json.dumps(input))
     assert expected == actual
-    assert actual is None or isinstance(actual, jinja2.Markup)
+    assert actual is None or isinstance(actual, markupsafe.Markup)
